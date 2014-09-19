@@ -28,7 +28,8 @@ To make this script run, you must go through some really basic steps:
 ## Script
 
 1. Copy the content of the script: [Script.gs](https://github.com/nobe4/extralendar/blob/master/Script.gs)
-2. Paste it in a Google Script: [here](https://www.google.com/script/start/)
+ * Paste it in a Google Script: [here](https://www.google.com/script/start/)
+ * Or Create a new script (in your drive : New -> Google App Script) and past in it
 3. Complete these fields:
   * ADDRESS: the extranet front page address
   * USERNAME: your extranet username
