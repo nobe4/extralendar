@@ -1,6 +1,7 @@
 // -------------------------- CONST ----------------------------
 
 var LOG_LEVEL = 1;
+var ADDRESS = "";
 var USERNAME = "";
 var PASSWORD = "";
 var CALENDAR = "";
@@ -31,10 +32,10 @@ function main(){
 
 // Login the user with its credentials
 function doLogin(){
-  var base_cookie = makeHttpRequest("https://extranet.efrei.fr/",{}).getAllHeaders()['Set-Cookie'].split(';')[0];
+  var base_cookie = makeHttpRequest(ADDRESS,{}).getAllHeaders()['Set-Cookie'].split(';')[0];
   log( 2, base_cookie, "Base Cookie");
   
-  var url = 'https://extranet.efrei.fr/Users/Account/DoLogin';  
+  var url = ADDRESS+'/Users/Account/DoLogin';  
   var payload =  {
     'username' : USERNAME,
     'password' : PASSWORD
@@ -43,7 +44,7 @@ function doLogin(){
   var headers = {
     'accept' : '*/*',
     'Connection' :	'keep-alive',
-    'Referer' : 'https://extranet.efrei.fr/',
+    'Referer' : ADDRESS,
     'User-Agent' :	'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:32.0) Gecko/20100101 Firefox/32.0',
     'Cookie' : base_cookie,
   };
@@ -64,12 +65,11 @@ function doLogin(){
 }
 
 // Fetch the extranet calendar
-// url : https://extranet.efrei.fr/Student/Calendar/GetStudentEvents?start=TIMESTAMP1&end=TIMESTAMP2&_=???'
 function fetchExtranet(cookies, dateNow, dateNext){
   var headers = {
     'Cookie' : cookies.join(';')
   }
-  var url = 'https://extranet.efrei.fr/Student/Calendar/GetStudentEvents?start='+ generateTimestamp( dateNow ) +'&end='+ generateTimestamp( dateNext );
+  var url = ADDRESS+'/Student/Calendar/GetStudentEvents?start='+ generateTimestamp( dateNow ) +'&end='+ generateTimestamp( dateNext );
 
   var options = {
     'method': 'get',
