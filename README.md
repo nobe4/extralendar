@@ -21,7 +21,7 @@ To make this script run, you must go through some really basic steps:
 
 1. Go to your [Google Calendar ](https://www.google.com/calendar/render)
 2. Create a new calendar
-3. Get its id  
+3. Get its id
 
 [Looking for help about Google Calendar ?](https://support.google.com/calendar/?hl=fr#topic=3417969)
 
@@ -64,34 +64,18 @@ var USERNAME = "";
 var PASSWORD = "";
 var CALENDAR = "";
 var STEP = 14;
+var EMAIL = "";
+var SHEET_ID = "";
 ```
 
 * LOG_LEVEL: define the verbosity of the script
  * 1: Only fatal errors
  * 2: Basic function return
  * 3: High verbosity, debug only
- * 
 * ADDRESS: extranet front page address
 * USERNAME: your username
 * PASSWORD: your password
 * CALENDAR: your calendar
 * STEP: the number of days you want to fetch in one time
-
-# How does it work ?
-
-``` javascript
-function doLogin(){
-  // fetch user informations used to get calendar infos
-  // 1/ get a session id
-  // 2/ use it with the payload to get the db_extranet cookie
-  // 3/ return the two cookies
-}
-```
-
-``` javascript
-function fetchExtranet(){
-  // use previously fetched cookie info to query the extranet and get the calendar bewteen the two dates
-  // 1/ insert all infos into a request
-  // 2/ return the request response
-}
-```
+* EMAIL: your email if you want a email error report
+* SHEET_ID : a sprite sheet id where the error report will be inserted
