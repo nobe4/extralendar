@@ -18,10 +18,10 @@ function main(){
   try {
     coreFunction();
   } catch(e) {
-    if(SHEET_ID != undefined)
+    if(SHEET_ID != undefined || SHEET_ID == "")
       sheetError(e);
     
-    if(EMAIL != undefined)
+    if(EMAIL != undefined || EMAIL == "")
       mailError(e);
   }
 }
@@ -172,7 +172,7 @@ function logRequest( level, url, options){
 // -------------------------- Error Report ----------------------------
 
 function mailError(error){
-  MailApp.sendEmail(EMAIL, "Error report",
+  MailApp.sendEmail(EMAIL, "Error report Extralendar",
                     "\r\nDate: " + new Date()
                     + "\r\nNumber: " + error.number
                     + "\r\nMessage: " + error.message
