@@ -7,24 +7,28 @@ var PASSWORD = "";
 var CALENDAR = "";
 var STEP = 14;
 
+// for error loggin purpose
+var EMAIL = "";
+var SHEET_ID = "";
+
 
 // -------------------------- Main ----------------------------
 
 function main(){
   var cal = CalendarApp.getCalendarById(CALENDAR);
-  
+
   var dateNow = roundDate( new Date() );
   log(2, dateNow);
   var dateNext = roundDate( dateAddDay( new Date(), STEP ) );
   log(2, dateNext);
-  
+
   var cookies = doLogin();
-  
+
   resetCalendar(cal, dateNow, dateNext);
-  
+
   var calendarInfo = fetchExtranet(cookies, dateNow, dateNext);
   calendarInfo = JSON.parse(calendarInfo);
-  
+
   for(i in calendarInfo){
     createEvent(cal,calendarInfo[i]);
   }
@@ -34,13 +38,13 @@ function main(){
 function doLogin(){
   var base_cookie = makeHttpRequest(ADDRESS,{}).getAllHeaders()['Set-Cookie'].split(';')[0];
   log( 2, base_cookie, "Base Cookie");
-  
-  var url = ADDRESS+'/Users/Account/DoLogin';  
+
+  var url = ADDRESS+'/Users/Account/DoLogin';
   var payload =  {
     'username' : USERNAME,
     'password' : PASSWORD
   };
-  
+
   var headers = {
     'accept' : '*/*',
     'Connection' :	'keep-alive',
@@ -48,7 +52,7 @@ function doLogin(){
     'User-Agent' :	'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:32.0) Gecko/20100101 Firefox/32.0',
     'Cookie' : base_cookie,
   };
-  
+
   var options = {
     'method': 'POST',
     'headers': headers,
@@ -58,9 +62,9 @@ function doLogin(){
 
   var response = makeHttpRequest(url, options);
   log( 2, response.getAllHeaders()['Set-Cookie'].split(';')[0], "Response Code");
- 
+
   var returnValue = [ base_cookie, response.getAllHeaders()['Set-Cookie'].split(';')[0]];
-  
+
   return returnValue;
 }
 
@@ -76,7 +80,7 @@ function fetchExtranet(cookies, dateNow, dateNext){
     'headers': headers,
   };
   var response = makeHttpRequest(url, options);
-  
+
   return response;
 }
 
@@ -87,7 +91,7 @@ function makeHttpRequest( url, options ){
   logRequest( 3, url, options );
   var response = UrlFetchApp.fetch(url, options);  //https://developers.google.com/apps-script/reference/url-fetch/http-response#getAllHeaders()
   log( 3, response.getResponseCode(), "Response Code");
-  
+
   return response;
 }
 
@@ -118,7 +122,7 @@ function log( level, message, header){
 function logRequest( level, url, options){
   if( level <= LOG_LEVEL ){
     var result = UrlFetchApp.getRequest(url, options);
-    
+
     for(i in result) {
       if(i == "headers"){
         for(j in result[i]) {
@@ -142,7 +146,7 @@ function createEvent(calendar, event) {
   var end = new Date(getDateFromIso(event.end));
   var desc = info.teacher;
   var loc = info.location;
-  
+
   var event = calendar.createEvent(title, start, end, {
     description : desc,
     location : loc
@@ -157,6 +161,14 @@ function resetCalendar(calendar,date1, date2){
   }
 }
 
+// -------------------------- Error Report ----------------------------
+function mailError(error){
+
+}
+
+function sheetError(error){
+
+}
 // -------------------------- Date helpers ----------------------------
 
 // Round the current date to 00:00
@@ -164,14 +176,14 @@ function roundDate( pDate ){
   pDate.setHours(0);
   pDate.setMinutes(0);
   pDate.setSeconds(0);
-  
+
   return pDate;
 }
 
 // Add the given number of days to the date
 function dateAddDay( pDate, pDay ){
   pDate.setDate( pDate.getDate() + pDay );
-  
+
   return pDate;
 }
 
@@ -189,10 +201,10 @@ function getDateFromIso(string) {
       "(T([0-9]{2}):([0-9]{2})(:([0-9]{2})(\.([0-9]+))?)?" +
         "(Z|(([-+])([0-9]{2}):([0-9]{2})))?)?)?)?";
     var d = string.match(new RegExp(regexp));
-    
+
     var offset = 0;
     var date = new Date(d[1], 0, 1);
-    
+
     if (d[3]) { date.setMonth(d[3] - 1); }
     if (d[5]) { date.setDate(d[5]); }
     if (d[7]) { date.setHours(d[7]); }
@@ -203,7 +215,7 @@ function getDateFromIso(string) {
       offset = (Number(d[16]) * 60) + Number(d[17]);
       offset *= ((d[15] == '-') ? 1 : -1);
     }
-    
+
     offset -= date.getTimezoneOffset();
     time = (Number(date) + (offset * 60 * 1000));
     return aDate.setTime(Number(time));
