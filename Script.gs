@@ -18,10 +18,10 @@ function main(){
   try {
     coreFunction();
   } catch(e) {
-    if(SHEET_ID != undefined && SHEET_ID == "")
+    if(SHEET_ID != undefined || SHEET_ID != "")
       sheetError(e);
     
-    if(EMAIL != undefined && EMAIL == "")
+    if(EMAIL != undefined || EMAIL != "")
       mailError(e);
   }
 }
