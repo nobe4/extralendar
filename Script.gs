@@ -163,11 +163,19 @@ function resetCalendar(calendar,date1, date2){
 
 // -------------------------- Error Report ----------------------------
 function mailError(error){
-
+	MailApp.sendEmail(EMAIL, "Error report",
+			"\r\nMessage: " + e.message
+			+ "\r\nFile: " + e.fileName
+			+ "\r\nLine: " + e.lineNumber);
 }
 
 function sheetError(error){
-
+	var errorSheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName('Errors');
+	lastRow = errorSheet.getLastRow();
+	var cell = errorSheet.getRange('A1');
+	cell.offset(lastRow, 0).setValue(e.message);
+	cell.offset(lastRow, 1).setValue(e.fileName);
+	cell.offset(lastRow, 2).setValue(e.lineNumber);
 }
 // -------------------------- Date helpers ----------------------------
 
