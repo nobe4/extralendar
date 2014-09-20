@@ -62,9 +62,9 @@ function coreFunction(){
 // Login the user with its credentials
 function doLogin(){  
   var base = makeHttpRequest(ADDRESS,{});
-  
+
   if( base.getAllHeaders()['Set-Cookie'] == undefined || base.getAllHeaders()['Set-Cookie'].split("=")[0] != "ASP.NET_SessionId")
-  throw error(10004, "Impossbile to fetch the ASP id, check the ADDRESS");
+    throw error(10004, "Impossbile to fetch the ASP id, check the ADDRESS");
   
   var base_cookie = base.getAllHeaders()['Set-Cookie'].split(';')[0];
   
@@ -94,7 +94,7 @@ function doLogin(){
   var response = makeHttpRequest(url, options);
   
   if( response.getAllHeaders()['Set-Cookie'] == undefined || response.getAllHeaders()['Set-Cookie'].split("=")[0] != "extranet_db")
-  throw error(10005, "Login error, please check your credentials");
+    throw error(10005, "Login error, please check your credentials");
   
   var returnValue = [ base_cookie, response.getAllHeaders()['Set-Cookie'].split(';')[0]];
   
@@ -174,9 +174,9 @@ function logRequest( level, url, options){
 function mailError(error){
   MailApp.sendEmail(EMAIL, "Error report",
                     "\r\nDate: " + new Date()
-  + "\r\nNumber: " + error.number
-  + "\r\nMessage: " + error.message
-  + "\r\nLine: " + error.lineNumber);
+                    + "\r\nNumber: " + error.number
+                    + "\r\nMessage: " + error.message
+                    + "\r\nLine: " + error.lineNumber);
 }
 
 function sheetError(error){
