@@ -41,14 +41,14 @@ function coreFunction(){
   
   var cookies = doLogin();
   
-  resetCalendar(cal, dateNow, dateNext);
-  
   var calendarInfo = fetchExtranet(cookies, dateNow, dateNext);
   
   if( calendarInfo == null )
     throw error(10003, "Something went wrong while fetching the calendar");
   
   calendarInfo = JSON.parse(calendarInfo);
+  
+  resetCalendar(cal, dateNow, dateNext);
   
   for(i in calendarInfo){
     createEvent(cal,calendarInfo[i]);
