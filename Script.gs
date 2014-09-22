@@ -7,9 +7,10 @@ var PASSWORD = "";
 var CALENDAR = "";
 var STEP = 14;
 
-// for error loggin purpose
+// for loggin purpose
 var EMAIL = "";
 var SHEET_ID = "";
+var LOG_UPDATE = false; // or true
 
 
 // -------------------------- Main ----------------------------
@@ -200,6 +201,10 @@ function createEvent(calendar, event) {
   var end = new Date(getDateFromIso(event.end));
   var desc = info.teacher;
   var loc = info.location;
+  
+  if(LOG_UPDATE){
+    desc += "\n\nUpdated at :\n" + new Date();
+  }
   
   var event = calendar.createEvent(title, start, end, {
     description : desc,
