@@ -22,8 +22,8 @@ To make this script run, you must go through some really basic steps:
 1. Go to your [Google Calendar ](https://www.google.com/calendar/render)
 2. Create a new calendar
 3. Get its id 
- * when you create the calendar, find the Calendar Address field
- * Calendar ID:  *xxx@group.calendar.google.com* (copy all in bold)
+ * when you create the calendar, find the *Calendar Address* field
+ * Calendar ID:  xxx@group.calendar.google.com (copy all)
 
 
 [Looking for help about Google Calendar ?](https://support.google.com/calendar/?hl=fr#topic=3417969)
