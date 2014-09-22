@@ -262,7 +262,6 @@ function getDateFromIso(string) {
       offset *= ((d[15] == '-') ? 1 : -1);
     }
     
-    offset -= date.getTimezoneOffset();
     time = (Number(date) + (offset * 60 * 1000));
     return aDate.setTime(Number(time));
   } catch(e){
