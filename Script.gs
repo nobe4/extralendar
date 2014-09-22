@@ -37,8 +37,8 @@ function coreFunction(){
   
   if( STEP <= 0 )
     throw error(10002, "The step must be greater than zero");
-  
-  var dateNow = roundDate( new Date() );
+
+  var dateNow = roundDate(  dateAddDay( new Date(), -1 ) );
   log(2, dateNow);
   var dateNext = roundDate( dateAddDay( new Date(), STEP ) );
   log(2, dateNext);
