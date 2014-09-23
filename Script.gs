@@ -58,6 +58,8 @@ function coreFunction(){
   for(i in calendarInfo){
     createEvent(cal,calendarInfo[i]);
   }
+  
+  doLogout();
 }
 
 // Login the user with its credentials
@@ -102,6 +104,12 @@ function doLogin(){
   log( 2, returnValue[1], "Response Code");
   
   return returnValue;
+}
+
+// Close the session
+function doLogout(){
+  makeHttpRequest(ADDRESS+"/Users/Account/ExtLogout",{});
+  return;
 }
 
 // Fetch the extranet calendar
