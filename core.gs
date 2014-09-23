@@ -2,7 +2,7 @@
 // this script contains all the logic but no user information
 
 function core(){
-	Logger.log("core is executing");
+	log(2, "core is executing");
 	try {
 		coreFunction();
 	} catch(e) {
@@ -16,6 +16,7 @@ function core(){
 
 // -------------------------- Main ----------------------------
 function coreFunction(){
+	log(2, "coreFunction is executing");
   if( !checkArguments )
     throw error(10000, "One or more of the arguments is empty");
 
