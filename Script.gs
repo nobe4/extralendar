@@ -67,7 +67,7 @@ function doLogin(){
   var base = makeHttpRequest(ADDRESS,{});
 
   if( base.getAllHeaders()['Set-Cookie'] == undefined || base.getAllHeaders()['Set-Cookie'].split("=")[0] != "ASP.NET_SessionId")
-    throw error(10004, "Impossbile to fetch the ASP id, check the ADDRESS");
+    throw error(10004, "Impossible to fetch the ASP id, check the ADDRESS");
   
   var base_cookie = base.getAllHeaders()['Set-Cookie'].split(';')[0];
   
