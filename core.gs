@@ -2,9 +2,7 @@
 // this script contains all the logic but no user information
 
 function core(){
-	log(2, "core is executing");
 	try {
-		log(2, "launch coreFunction");
 		coreFunction();
 	} catch(e) {
 		if(SHEET_ID != undefined && SHEET_ID != "")
@@ -17,11 +15,10 @@ function core(){
 
 // -------------------------- Main ----------------------------
 function coreFunction(){
-  log(2, "coreFunction is executing");
   if( !checkArguments )
     throw error(10000, "One or more of the arguments is empty");
-   log(2, "checkArguemtns is OK");
-  var cal = CalendarApp.getCalendarById(CALENDAR);
+   
+   var cal = CalendarApp.getCalendarById(CALENDAR);
 
   if( cal == null )
     throw error(10001, "Please specify a valid calendar");
