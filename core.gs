@@ -17,10 +17,10 @@ function core(){
 
 // -------------------------- Main ----------------------------
 function coreFunction(){
-	log(2, "coreFunction is executing");
+  log(2, "coreFunction is executing");
   if( !checkArguments )
     throw error(10000, "One or more of the arguments is empty");
-
+   log(2, "checkArguemtns is OK");
   var cal = CalendarApp.getCalendarById(CALENDAR);
 
   if( cal == null )
