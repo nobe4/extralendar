@@ -1,3 +1,7 @@
+// this script is the user script
+// this script will fecth core.gs automaticaly rom github and execute it
+// all the user informations are in this file
+
 // -------------------------- CONST ----------------------------
 
 var LOG_LEVEL = 1;
@@ -21,7 +25,7 @@ function main(){
   } catch(e) {
     if(SHEET_ID != undefined && SHEET_ID != "")
       sheetError(e);
-    
+
     if(EMAIL != undefined && EMAIL != "")
       mailError(e);
   }
@@ -30,12 +34,12 @@ function main(){
 function coreFunction(){
   if( !checkArguments )
     throw error(10000, "One or more of the arguments is empty");
-  
+
   var cal = CalendarApp.getCalendarById(CALENDAR);
-  
+
   if( cal == null )
     throw error(10001, "Please specify a valid calendar");
-  
+
   if( STEP <= 0 )
     throw error(10002, "The step must be greater than zero");
 
@@ -43,42 +47,42 @@ function coreFunction(){
   log(2, dateNow);
   var dateNext = roundDate( dateAddDay( new Date(), STEP ) );
   log(2, dateNext);
-  
+
   var cookies = doLogin();
-  
+
   var calendarInfo = fetchExtranet(cookies, dateNow, dateNext);
-  
+
   if( calendarInfo == null )
     throw error(10003, "Something went wrong while fetching the calendar");
-  
+
   calendarInfo = JSON.parse(calendarInfo);
-  
+
   resetCalendar(cal, dateNow, dateNext);
-  
+
   for(i in calendarInfo){
     createEvent(cal,calendarInfo[i]);
   }
-  
+
   doLogout();
 }
 
 // Login the user with its credentials
-function doLogin(){  
+function doLogin(){
   var base = makeHttpRequest(ADDRESS,{});
 
   if( base.getAllHeaders()['Set-Cookie'] == undefined || base.getAllHeaders()['Set-Cookie'].split("=")[0] != "ASP.NET_SessionId")
     throw error(10004, "Impossbile to fetch the ASP id, check the ADDRESS");
-  
+
   var base_cookie = base.getAllHeaders()['Set-Cookie'].split(';')[0];
-  
+
   log( 2, base_cookie, "Base Cookie");
-  
-  var url = ADDRESS+'/Users/Account/DoLogin';  
+
+  var url = ADDRESS+'/Users/Account/DoLogin';
   var payload =  {
     'username' : USERNAME,
     'password' : PASSWORD
   };
-  
+
   var headers = {
     'accept' : '*/*',
     'Connection' :	'keep-alive',
@@ -86,23 +90,23 @@ function doLogin(){
     'User-Agent' :	'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:32.0) Gecko/20100101 Firefox/32.0',
     'Cookie' : base_cookie,
   };
-  
+
   var options = {
     'method': 'POST',
     'headers': headers,
     'payload' : payload,
     'followRedirects' : false
   };
-  
+
   var response = makeHttpRequest(url, options);
-  
+
   if( response.getAllHeaders()['Set-Cookie'] == undefined || response.getAllHeaders()['Set-Cookie'].split("=")[0] != "extranet_db")
     throw error(10005, "Login error, please check your credentials");
-  
+
   var returnValue = [ base_cookie, response.getAllHeaders()['Set-Cookie'].split(';')[0]];
-  
+
   log( 2, returnValue[1], "Response Code");
-  
+
   return returnValue;
 }
 
@@ -118,13 +122,13 @@ function fetchExtranet(cookies, dateNow, dateNext){
     'Cookie' : cookies.join(';')
   }
   var url = ADDRESS+'/Student/Calendar/GetStudentEvents?start='+ generateTimestamp( dateNow ) +'&end='+ generateTimestamp( dateNext );
-  
+
   var options = {
     'method': 'get',
     'headers': headers,
   };
   var response = makeHttpRequest(url, options);
-  
+
   return response;
 }
 
@@ -135,7 +139,7 @@ function makeHttpRequest( url, options ){
   logRequest( 3, url, options );
   var response = UrlFetchApp.fetch(url, options);  //https://developers.google.com/apps-script/reference/url-fetch/http-response#getAllHeaders()
   log( 3, response.getResponseCode(), "Response Code");
-  
+
   return response;
 }
 
@@ -165,7 +169,7 @@ function log( level, message, header){
 function logRequest( level, url, options){
   if( level <= LOG_LEVEL ){
     var result = UrlFetchApp.getRequest(url, options);
-    
+
     for(i in result) {
       if(i == "headers"){
         for(j in result[i]) {
@@ -203,17 +207,17 @@ function sheetError(error){
 // Create Event
 function createEvent(calendar, event) {
   var info = parseTitle(event.title);
-  
+
   var title = info.title;
   var start = new Date(getDateFromIso(event.start));
   var end = new Date(getDateFromIso(event.end));
   var desc = info.teacher;
   var loc = info.location;
-  
+
   if(LOG_UPDATE){
     desc += "\n\nUpdated at :\n" + new Date();
   }
-  
+
   var event = calendar.createEvent(title, start, end, {
     description : desc,
     location : loc
@@ -235,14 +239,14 @@ function roundDate( pDate ){
   pDate.setHours(0);
   pDate.setMinutes(0);
   pDate.setSeconds(0);
-  
+
   return pDate;
 }
 
 // Add the given number of days to the date
 function dateAddDay( pDate, pDay ){
   pDate.setDate( pDate.getDate() + pDay );
-  
+
   return pDate;
 }
 
@@ -260,10 +264,10 @@ function getDateFromIso(string) {
       "(T([0-9]{2}):([0-9]{2})(:([0-9]{2})(\.([0-9]+))?)?" +
         "(Z|(([-+])([0-9]{2}):([0-9]{2})))?)?)?)?";
     var d = string.match(new RegExp(regexp));
-    
+
     var offset = 0;
     var date = new Date(d[1], 0, 1);
-    
+
     if (d[3]) { date.setMonth(d[3] - 1); }
     if (d[5]) { date.setDate(d[5]); }
     if (d[7]) { date.setHours(d[7]); }
@@ -274,7 +278,7 @@ function getDateFromIso(string) {
       offset = (Number(d[16]) * 60) + Number(d[17]);
       offset *= ((d[15] == '-') ? 1 : -1);
     }
-    
+
     time = (Number(date) + (offset * 60 * 1000));
     return aDate.setTime(Number(time));
   } catch(e){
@@ -293,21 +297,21 @@ function error(pNumber, pMessage){
 function checkArguments(){
   if( LOG_LEVEL == undefined )
     return false;
-  
+
   if( ADDRESS == undefined || ADDRESS == "" )
     return false;
-  
+
   if( USERNAME == undefined || USERNAME == "" )
     return false;
-  
+
   if( PASSWORD == undefined || PASSWORD == "" )
     return false;
-  
+
   if( CALENDAR == undefined || CALENDAR == "" )
     return false;
-  
+
   if( STEP == undefined )
     return false;
-  
+
   return true;
 }
