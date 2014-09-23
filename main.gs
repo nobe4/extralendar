@@ -16,7 +16,13 @@ var EMAIL = "";
 var SHEET_ID = "";
 var LOG_UPDATE = false; // or true
 
+// core script url
 var CORE_GS_URL = "https://raw.githubusercontent.com/nobe4/extralendar/develop/core.gs";
+
+// request rights 
+CalendarApp.getColor();
+MailApp.getRemainingDailyQuota();
+SpreadsheetApp.flush();
 
 function main(){
 	var core_gs = UrlFetchApp.fetch(CORE_GS_URL);
