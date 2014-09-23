@@ -4,6 +4,7 @@
 function core(){
 	log(2, "core is executing");
 	try {
+		log(2, "launch coreFunction");
 		coreFunction();
 	} catch(e) {
 		if(SHEET_ID != undefined && SHEET_ID != "")
