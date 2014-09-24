@@ -293,7 +293,7 @@ function checkArguments(){
 
   // Set default values
   args.log_level = ((args.log_level == undefined) ? 1 : args.log_level);
-  args.step = ((args.step == undefined) ? 14 : args.step);
+  args.step = ((args.step == undefined || typeof args.step != number) ? 14 : args.step);
   args.anonymous_stats = ((args.anonymous_stats == undefined) ? false : args.anonymous_stats);
   args.email = ((args.email == undefined) ? "" : args.email);
   args.sheet_id = ((args.sheet_id == undefined) ? "" : args.sheet_id);
