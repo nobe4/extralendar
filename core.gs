@@ -5,10 +5,10 @@ function core(){
 	try {
 		coreFunction();
 	} catch(e) {
-		if(SHEET_ID != undefined && SHEET_ID != "")
+		if(args.sheet_id != undefined && args.sheet_id != "")
 			sheetError(e);
 
-		if(EMAIL != undefined && EMAIL != "")
+		if(args.email != undefined && args.email != "")
 			mailError(e);
 	}
 }
@@ -18,17 +18,17 @@ function coreFunction(){
   if( !checkArguments )
     throw error(10000, "One or more of the arguments is empty");
    
-   var cal = CalendarApp.getCalendarById(CALENDAR);
+   var cal = CalendarApp.getCalendarById(args.calendar);
 
   if( cal == null )
     throw error(10001, "Please specify a valid calendar");
 
-  if( STEP <= 0 )
+  if( args.step <= 0 )
     throw error(10002, "The step must be greater than zero");
 
   var dateNow = roundDate(  dateAddDay( new Date(), -1 ) );
   log(2, dateNow);
-  var dateNext = roundDate( dateAddDay( new Date(), STEP ) );
+  var dateNext = roundDate( dateAddDay( new Date(), args.step ) );
   log(2, dateNext);
 
   var cookies = doLogin();
@@ -51,7 +51,7 @@ function coreFunction(){
 
 // Login the user with its credentials
 function doLogin(){
-  var base = makeHttpRequest(ADDRESS,{});
+  var base = makeHttpRequest(args.address,{});
 
   if( base.getAllHeaders()['Set-Cookie'] == undefined || base.getAllHeaders()['Set-Cookie'].split("=")[0] != "ASP.NET_SessionId")
     throw error(10004, "Impossbile to fetch the ASP id, check the ADDRESS");
@@ -60,16 +60,16 @@ function doLogin(){
 
   log( 2, base_cookie, "Base Cookie");
 
-  var url = ADDRESS+'/Users/Account/DoLogin';
+  var url = args.address+'/Users/Account/DoLogin';
   var payload =  {
-    'username' : USERNAME,
-    'password' : PASSWORD
+    'username' : args.username,
+    'password' : args.password
   };
 
   var headers = {
     'accept' : '*/*',
     'Connection' :	'keep-alive',
-    'Referer' : ADDRESS,
+    'Referer' : args.address,
     'User-Agent' :	'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:32.0) Gecko/20100101 Firefox/32.0',
     'Cookie' : base_cookie,
   };
@@ -95,7 +95,7 @@ function doLogin(){
 
 // Close the session
 function doLogout(){
-  makeHttpRequest(ADDRESS+"/Users/Account/ExtLogout",{});
+  makeHttpRequest(args.address+"/Users/Account/ExtLogout",{});
   return;
 }
 
@@ -104,7 +104,7 @@ function fetchExtranet(cookies, dateNow, dateNext){
   var headers = {
     'Cookie' : cookies.join(';')
   }
-  var url = ADDRESS+'/Student/Calendar/GetStudentEvents?start='+ generateTimestamp( dateNow ) +'&end='+ generateTimestamp( dateNext );
+  var url = args.address+'/Student/Calendar/GetStudentEvents?start='+ generateTimestamp( dateNow ) +'&end='+ generateTimestamp( dateNext );
 
   var options = {
     'method': 'get',
@@ -140,7 +140,7 @@ function parseTitle(title){
 
 // Basic log
 function log( level, message, header){
-  if( level <= LOG_LEVEL ){
+  if( level <= args.log_level ){
     if( header != null ){
       Logger.log( "-----> " + header );
     }
@@ -150,7 +150,7 @@ function log( level, message, header){
 
 // Debug request viewer
 function logRequest( level, url, options){
-  if( level <= LOG_LEVEL ){
+  if( level <= args.log_level ){
     var result = UrlFetchApp.getRequest(url, options);
 
     for(i in result) {
@@ -168,7 +168,7 @@ function logRequest( level, url, options){
 // -------------------------- Error Report ----------------------------
 
 function mailError(error){
-  MailApp.sendEmail(EMAIL, "Error report Extralendar",
+  MailApp.sendEmail(args.email, "Error report Extralendar",
                     "\r\nDate: " + new Date()
                     + "\r\nNumber: " + error.number
                     + "\r\nMessage: " + error.message
@@ -176,7 +176,7 @@ function mailError(error){
 }
 
 function sheetError(error){
-  var errorSheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName('Errors');
+  var errorSheet = SpreadsheetApp.openById(args.sheet_id).getSheetByName('Errors');
   lastRow = errorSheet.getLastRow();
   var cell = errorSheet.getRange('A1');
   cell.offset(lastRow, 0).setValue(new Date());
@@ -197,7 +197,7 @@ function createEvent(calendar, event) {
   var desc = info.teacher;
   var loc = info.location;
 
-  if(LOG_UPDATE){
+  if(args.log_update){
     desc += "\n\nUpdated at :\n" + new Date();
   }
 
@@ -278,24 +278,27 @@ function error(pNumber, pMessage){
 }
 
 function checkArguments(){
-  if( LOG_LEVEL == undefined )
+  // Check required arguments
+  if( args.address == undefined || args.address == "" )
     return false;
 
-  if( ADDRESS == undefined || ADDRESS == "" )
+  if( args.username == undefined || args.username == "" )
     return false;
 
-  if( USERNAME == undefined || USERNAME == "" )
+  if( args.password == undefined || args.password == "" )
     return false;
 
-  if( PASSWORD == undefined || PASSWORD == "" )
+  if( args.calendar == undefined || args.calendar == "" )
     return false;
 
-  if( CALENDAR == undefined || CALENDAR == "" )
-    return false;
-
-  if( STEP == undefined )
-    return false;
-
+  // Set default values
+  args.log_level = ((args.log_level == undefined) ? 1 : args.log_level);
+  args.step = ((args.step == undefined) ? 14 : args.step);
+  args.anonymous_stats = ((args.anonymous_stats == undefined) ? false : args.anonymous_stats);
+  args.email = ((args.email == undefined) ? "" : args.email);
+  args.sheet_id = ((args.sheet_id == undefined) ? "" : args.sheet_id);
+  args.log_update = ((args.log_update == undefined) ? false : args.log_update);
+  
   return true;
 }
 
