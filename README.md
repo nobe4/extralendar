@@ -16,6 +16,7 @@ Extralendar is a google app script for automatic export of the extranet calendar
 ## Help !
 
 See the [wiki](https://github.com/nobe4/extralendar/wiki)
+
 Go to the [FAQ](https://github.com/nobe4/extralendar/wiki/FAQ)
 
 
