@@ -18,6 +18,7 @@ var args = {
   password : "",
   calendar : "",
   anonymous_stats : true,  // please help us improving our service by collecting anonymous error reports
+  alert_update : true, // inform you by e-mail about new updates
 };
 
 // Request authorization for calendar, docs and mail
@@ -29,4 +30,5 @@ function main(){
   var url = "https://raw.githubusercontent.com/nobe4/extralendar/"+((args.branch!="develop") ? "master" : "develop") +"/core.gs";
   var core_gs = UrlFetchApp.fetch(url);
   var core = new Function(core_gs);
+  core();
 }
