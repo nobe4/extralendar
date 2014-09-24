@@ -15,7 +15,7 @@ function core(){
 
 // -------------------------- Main ----------------------------
 function coreFunction(){
-  if( !checkArguments )
+  if( !checkArguments() )
     throw error(10000, "One or more of the arguments is empty");
    
    var cal = CalendarApp.getCalendarById(args.calendar);
