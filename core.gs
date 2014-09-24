@@ -30,6 +30,10 @@ function coreFunction(){
   log(2, dateNow);
   var dateNext = roundDate( dateAddDay( new Date(), args.step ) );
   log(2, dateNext);
+  
+  log(1, args.step, "ARGS");
+  log(1, dateAddDay( new Date(), args.step ), "ARGS");
+  log(1, roundDate( dateAddDay( new Date(), args.step ) ), "ARGS");
 
   var cookies = doLogin();
 
