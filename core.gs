@@ -219,7 +219,7 @@ function resetCalendar(calendar,date1, date2){
 
 // Round the current date to 00:00
 function roundDate( pDate ){
-  pDate.setHours(0);
+  pDate.setHours(04);
   pDate.setMinutes(0);
   pDate.setSeconds(0);
 
