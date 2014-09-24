@@ -3,7 +3,8 @@
 //  Google app script for automatic export of the extranet calendar to google calendar.
 //
 //  Installation:
-//   see : https://github.com/nobe4/extralendar
+//   See : https://github.com/nobe4/extralendar
+//   Have a question : https://github.com/nobe4/extralendar/wiki/FAQ
 //
 //  Want to help:
 //   Report us any bugs on : https://github.com/nobe4/extralendar/issues
