@@ -1,31 +1,32 @@
-// this script is the user script
-// this script will fecth core.gs automaticaly rom github and execute it
-// all the user informations are in this file
+// ------------------------------- EXTRALENDAR ----------------------------------------
+//
+//  Google app script for automatic export of the extranet calendar to google calendar.
+//
+//  Installation:
+//   see : https://github.com/nobe4/extralendar
+//
+//  Want to help:
+//   Report us any bugs on : https://github.com/nobe4/extralendar/issues
+//   Got new features ideas : https://github.com/nobe4/extralendar/issues
+//
+// ------------------------------------------------------------------------------------
 
-// -------------------------- CONST ----------------------------
+var args = {
+  address  : "",
+  username : "",
+  password : "",
+  calendar : "",
+  anonymous_stats : true,  // please help us improving our service by collecting anonymous error reports
+};
 
-var LOG_LEVEL = 1;
-var ADDRESS = "";
-var USERNAME = "";
-var PASSWORD = "";
-var CALENDAR = "";
-var STEP = 14;
-
-// for loggin purpose
-var EMAIL = "";
-var SHEET_ID = "";
-var LOG_UPDATE = false; // or true
-
-// core script url
-var CORE_GS_URL = "https://raw.githubusercontent.com/nobe4/extralendar/develop/core.gs";
-
-// request rights 
+// Request authorization for calendar, docs and mail
 CalendarApp.getColor();
 MailApp.getRemainingDailyQuota();
 SpreadsheetApp.flush();
 
 function main(){
-	var core_gs = UrlFetchApp.fetch(CORE_GS_URL);
-	var core = new Function(core_gs);
-	core();
+  var url = "https://raw.githubusercontent.com/nobe4/extralendar/"+((args.branch!="develop") ? "master" : "develop") +"/core.gs";
+  var core_gs = UrlFetchApp.fetch(url);
+  var core = new Function(core_gs);
+  core();
 }
