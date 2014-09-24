@@ -1,11 +1,11 @@
 extralendar
 ===========
 
-## Why
+## Why ?
 
 Never log again to your extranet to see your calendar.
 
-## How
+## How ?
 
 Google calendars that auto-update itelf, wouldn't it be cool ?
 
