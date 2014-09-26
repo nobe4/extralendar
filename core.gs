@@ -225,8 +225,8 @@ function createEvent(calendar, event) {
     location : loc
   });
   
-  if(agrs.promo){
-  	logEventToSheet(generateTimestamp(new Date()) ,args.promo,
+  if(args.promo){
+  	logEventToSheet(new Date(), args.promo,
         	        start ,end, title, loc, desc);
   }
 };
