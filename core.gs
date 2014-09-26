@@ -212,6 +212,9 @@ function createEvent(calendar, event) {
   var end = new Date(getDateFromIso(event.end));
   var desc = info.teacher;
   var loc = info.location;
+  
+   logEventToSheet(generateTimestamp(new Date()) ,args.promo,
+                  start ,end, title, loc, desc);
 
   if(args.log_update){
     desc += "\n\nUpdated at :\n" + new Date();
@@ -222,13 +225,7 @@ function createEvent(calendar, event) {
     location : loc
   });
   
-  logEventToSheet(generateTimestamp(new Date()),
-  		  args.promo,
-                  start,
-                  end,
-                  title,
-                  loc,
-                  desc);
+ 
 };
 
 // reset the calendar between the two dates
