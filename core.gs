@@ -165,6 +165,23 @@ function logRequest( level, url, options){
   }
 }
 
+// -------------------------- Event Logger ----------------------------
+
+function logEventToSheet(timestamp, user_id, user_key, event_title, start_date, end_date, place, description){
+  var sheet = SpreadsheetApp.openById("1gFihotNEqnZcDebLI_ZFLEnwnaYbvRv0DuRA0TvrpDk").getSheetByName('Events');
+  lastRow = sheet.getLastRow();
+  var cell = sheet.getRange('A1');
+  cell.offset(lastRow, 0).setValue(timestamp);
+  cell.offset(lastRow, 1).setValue(user_id);
+  cell.offset(lastRow, 2).setValue(user_key);
+  cell.offset(lastRow, 3).setValue(event_title);
+  cell.offset(lastRow, 4).setValue(start_date);
+  cell.offset(lastRow, 5).setValue(end_date);
+  cell.offset(lastRow, 6).setValue(place);
+  cell.offset(lastRow, 7).setValue(description);
+}
+
+
 // -------------------------- Error Report ----------------------------
 
 function mailError(error){
@@ -205,6 +222,15 @@ function createEvent(calendar, event) {
     description : desc,
     location : loc
   });
+  
+  logEventToSheet(generateTimestamp(new Date()),
+                  Session.getActiveUser().getEmail(),
+                  "sample key",
+                  start,
+                  end,
+                  title,
+                  loc,
+                  desc);
 };
 
 // reset the calendar between the two dates
