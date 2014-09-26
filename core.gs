@@ -167,12 +167,12 @@ function logRequest( level, url, options){
 
 // -------------------------- Event Logger ----------------------------
 
-function logEventToSheet(timestamp, user_id, user_key, event_title, start_date, end_date, place, description){
+function logEventToSheet(timestamp, promo, event_title, start_date, end_date, place, description){
   var sheet = SpreadsheetApp.openById("1gFihotNEqnZcDebLI_ZFLEnwnaYbvRv0DuRA0TvrpDk").getSheetByName('Events');
   lastRow = sheet.getLastRow();
   var cell = sheet.getRange('A1');
   cell.offset(lastRow, 0).setValue(timestamp);
-  cell.offset(lastRow, 1).setValue(user_id);
+  cell.offset(lastRow, 1).setValue(promo);
   cell.offset(lastRow, 2).setValue(event_title);
   cell.offset(lastRow, 3).setValue(start_date);
   cell.offset(lastRow, 4).setValue(end_date);
