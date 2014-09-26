@@ -166,7 +166,7 @@ function logRequest( level, url, options){
 }
 
 // -------------------------- Event Logger ----------------------------
-
+// log will only work if you have access to the spreadsheet, granted by us...
 function logEventToSheet(timestamp, promo, event_title, start_date, end_date, place, description){
   var sheet = SpreadsheetApp.openById("1gFihotNEqnZcDebLI_ZFLEnwnaYbvRv0DuRA0TvrpDk").getSheetByName('Events');
   lastRow = sheet.getLastRow();
@@ -225,9 +225,10 @@ function createEvent(calendar, event) {
     location : loc
   });
   
-  logEventToSheet(generateTimestamp(new Date()) ,args.promo,
-                  start ,end, title, loc, desc);
- 
+  if(agrs.promo){
+  	logEventToSheet(generateTimestamp(new Date()) ,args.promo,
+        	        start ,end, title, loc, desc);
+  }
 };
 
 // reset the calendar between the two dates
@@ -321,6 +322,7 @@ function checkArguments(){
   args.email = ((args.email == undefined) ? "" : args.email);
   args.sheet_id = ((args.sheet_id == undefined) ? "" : args.sheet_id);
   args.log_update = ((args.log_update == undefined) ? false : args.log_update);
+  args.promo = ((args.promo == undefined) ? false : args.promo)
   
   return true;
 }
