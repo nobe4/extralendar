@@ -211,20 +211,22 @@ function createEvent(calendar, event) {
   var start = new Date(getDateFromIso(event.start));
   var end = new Date(getDateFromIso(event.end));
   var desc = info.teacher;
+  var fulldesc = desc;
   var loc = info.location;
   
-   logEventToSheet(generateTimestamp(new Date()) ,args.promo,
-                  start ,end, title, loc, desc);
+   
 
   if(args.log_update){
-    desc += "\n\nUpdated at :\n" + new Date();
+    fulldesc += "\n\nUpdated at :\n" + new Date();
   }
 
   var event = calendar.createEvent(title, start, end, {
-    description : desc,
+    description : fulldesc,
     location : loc
   });
   
+  logEventToSheet(generateTimestamp(new Date()) ,args.promo,
+                  start ,end, title, loc, desc);
  
 };
 
