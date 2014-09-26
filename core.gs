@@ -225,7 +225,6 @@ function createEvent(calendar, event) {
   
   logEventToSheet(generateTimestamp(new Date()),
   		  generateTimestamp(new Date()),
-                 // Session.getActiveUser().getEmail(),
                   "sample key",
                   start,
                   end,
