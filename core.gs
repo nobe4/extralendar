@@ -173,12 +173,11 @@ function logEventToSheet(timestamp, user_id, user_key, event_title, start_date, 
   var cell = sheet.getRange('A1');
   cell.offset(lastRow, 0).setValue(timestamp);
   cell.offset(lastRow, 1).setValue(user_id);
-  cell.offset(lastRow, 2).setValue(user_key);
-  cell.offset(lastRow, 3).setValue(event_title);
-  cell.offset(lastRow, 4).setValue(start_date);
-  cell.offset(lastRow, 5).setValue(end_date);
-  cell.offset(lastRow, 6).setValue(place);
-  cell.offset(lastRow, 7).setValue(description);
+  cell.offset(lastRow, 2).setValue(event_title);
+  cell.offset(lastRow, 3).setValue(start_date);
+  cell.offset(lastRow, 4).setValue(end_date);
+  cell.offset(lastRow, 5).setValue(place);
+  cell.offset(lastRow, 6).setValue(description);
 }
 
 
@@ -224,8 +223,7 @@ function createEvent(calendar, event) {
   });
   
   logEventToSheet(generateTimestamp(new Date()),
-  		  generateTimestamp(new Date()),
-                  "sample key",
+  		  args.promo,
                   start,
                   end,
                   title,
