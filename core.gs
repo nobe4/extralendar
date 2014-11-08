@@ -201,6 +201,12 @@ function createEvent(calendar, event) {
     desc += "\n\nUpdated at :\n" + new Date();
   }
 
+  if(args.override_location)
+  {
+    title = loc + ' - ' + title;
+    loc = args.override_location;
+  }
+
   var event = calendar.createEvent(title, start, end, {
     description : desc,
     location : loc
