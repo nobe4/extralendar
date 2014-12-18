@@ -309,6 +309,7 @@ function checkArguments(){
   args.email = ((args.email == undefined) ? "" : args.email);
   args.sheet_id = ((args.sheet_id == undefined) ? "" : args.sheet_id);
   args.log_update = ((args.log_update == undefined) ? false : args.log_update);
+  args.override_location = ((args.override_location == undefined) ? false : args.override_location);
 
   return true;
 }
