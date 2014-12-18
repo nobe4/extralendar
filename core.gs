@@ -204,7 +204,6 @@ function createEvent(calendar, event) {
   if(args.override_location)
   {
     title = loc + ' - ' + title;
-    loc = args.override_location;
   }
 
   var event = calendar.createEvent(title, start, end, {
