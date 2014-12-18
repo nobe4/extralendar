@@ -104,8 +104,8 @@ function fetchExtranet(cookies, dateNow, dateNext){
   var headers = {
     'Cookie' : cookies.join(';')
   }
-  var url = args.address+'/Student/Calendar/GetStudentEvents?start='+ generateTimestamp( dateNow ) +'&end='+ generateTimestamp( dateNext );
-
+  var url = args.address+'/Student/Calendar/GetStudentEvents?start='+ formatDate( dateNow ) +'&end='+ formatDate( dateNext );
+    
   var options = {
     'method': 'get',
     'headers': headers,
@@ -224,6 +224,11 @@ function roundDate( pDate ){
   pDate.setSeconds(0);
 
   return pDate;
+}
+
+// Format the date : yyyy-mm-dd
+function formatDate(pDate){
+  return pDate.getFullYear() + '-' + (pDate.getMonth()+1) + '-' + pDate.getDate();
 }
 
 // Add the given number of days to the date
