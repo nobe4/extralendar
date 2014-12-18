@@ -17,6 +17,7 @@ var args = {
   username : "",
   password : "",
   calendar : "",
+  override_location : "", // Replace the location field of each entry
   anonymous_stats : true,  // please help us improving our service by collecting anonymous error reports
   alert_update : true, // inform you by e-mail about new updates
 };

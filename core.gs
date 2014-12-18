@@ -17,7 +17,7 @@ function core(){
 function coreFunction(){
   if( !checkArguments() )
     throw error(10000, "One or more of the arguments is empty");
-   
+
    var cal = CalendarApp.getCalendarById(args.calendar);
 
   if( cal == null )
@@ -54,7 +54,7 @@ function doLogin(){
   var base = makeHttpRequest(args.address,{});
 
   if( base.getAllHeaders()['Set-Cookie'] == undefined || base.getAllHeaders()['Set-Cookie'].split("=")[0] != "ASP.NET_SessionId")
-    throw error(10004, "Impossbile to fetch the ASP id, check the ADDRESS");
+    throw error(10004, "Impossible to fetch the ASP id, check the ADDRESS");
 
   var base_cookie = base.getAllHeaders()['Set-Cookie'].split(';')[0];
 
@@ -201,6 +201,12 @@ function createEvent(calendar, event) {
     desc += "\n\nUpdated at :\n" + new Date();
   }
 
+  if(args.override_location)
+  {
+    title = loc + ' - ' + title;
+    loc = args.override_location;
+  }
+
   var event = calendar.createEvent(title, start, end, {
     description : desc,
     location : loc
@@ -303,7 +309,7 @@ function checkArguments(){
   args.email = ((args.email == undefined) ? "" : args.email);
   args.sheet_id = ((args.sheet_id == undefined) ? "" : args.sheet_id);
   args.log_update = ((args.log_update == undefined) ? false : args.log_update);
-  
+
   return true;
 }
 
