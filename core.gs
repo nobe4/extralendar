@@ -198,7 +198,7 @@ function createEvent(calendar, event) {
   var loc = info.location;
 
   if(desc == "  DOE, J"){
-    title = "DE :" + title;
+    title = "DE : " + title;
   }    
 
   if(args.log_update){
