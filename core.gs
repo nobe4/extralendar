@@ -197,6 +197,10 @@ function createEvent(calendar, event) {
   var desc = info.teacher;
   var loc = info.location;
 
+  if(desc == "  DOE, J"){
+    title = "DE : " + title;
+  }    
+
   if(args.log_update){
     desc += "\n\nUpdated at :\n" + new Date();
   }
